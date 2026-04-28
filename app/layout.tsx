@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Private Strava Analytics",
+  title: "Strava Visualizer",
   description: "A private personal fitness dashboard for one authenticated Strava user.",
 };
 

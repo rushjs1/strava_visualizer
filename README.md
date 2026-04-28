@@ -1,4 +1,4 @@
-# Pulse Vault
+# Strava Visualizer
 
 A private personal Strava analytics dashboard built with Next.js App Router,
 TypeScript, Tailwind CSS, shadcn/ui, lucide-react, and Recharts.

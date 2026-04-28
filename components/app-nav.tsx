@@ -59,7 +59,7 @@ export function AppNav() {
               <Download className="size-4 rotate-180" />
             </span>
             <span>
-              <span className="text-base font-semibold tracking-tight">Pulse Vault</span>
+              <span className="text-base font-semibold tracking-tight">Strava Visualizer</span>
               <span className="mt-0.5 block text-sm text-muted-foreground">
                 Private analytics
               </span>
@@ -77,7 +77,7 @@ export function AppNav() {
           <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Download className="size-4 rotate-180" />
           </span>
-          Pulse Vault
+          Strava Visualizer
         </Link>
         <Sheet>
           <SheetTrigger render={<Button variant="outline" size="icon" />}>
@@ -86,7 +86,7 @@ export function AppNav() {
           </SheetTrigger>
           <SheetContent side="left" className="w-80 border-white/10 bg-sidebar">
             <SheetHeader>
-              <SheetTitle>Pulse Vault</SheetTitle>
+              <SheetTitle>Strava Visualizer</SheetTitle>
             </SheetHeader>
             <div className="px-4">
               <NavLinks />
