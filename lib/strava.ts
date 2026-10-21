@@ -7,6 +7,7 @@ import type {
   ActivityType,
   AthleteProfile,
   PersonalDataResult,
+  RunMapPage,
 } from "@/lib/types";
 
 type StravaSummaryActivity = {
@@ -21,6 +22,7 @@ type StravaSummaryActivity = {
   average_speed?: number;
   total_elevation_gain?: number;
   description?: string | null;
+  map?: { summary_polyline?: string | null };
 };
 
 type StravaAthlete = {
@@ -57,6 +59,7 @@ async function getConfiguredAccessToken(accessToken?: string) {
 }
 
 function normalizeActivityType(type?: string): ActivityType {
+  if (type === "TrailRun" || type === "VirtualRun") return "Run";
   if (
     type === "Run" ||
     type === "Ride" ||
@@ -82,6 +85,7 @@ function mapActivity(activity: StravaSummaryActivity): ActivitySummary {
     averageSpeedMetersPerSecond: activity.average_speed ?? null,
     totalElevationGainMeters: activity.total_elevation_gain ?? 0,
     description: activity.description ?? null,
+    summaryPolyline: activity.map?.summary_polyline ?? null,
   };
 }
 
@@ -166,4 +170,22 @@ export async function getPersonalStravaData(): Promise<PersonalDataResult> {
         error instanceof Error ? error.message : "Unable to fetch Strava data.",
     };
   }
+}
+
+// The map loads one page at a time so long histories do not hold a server
+// request open. Keep the existing dashboard's recent-activity fetch unchanged.
+export async function fetchRunMapPage(page: number, before: number): Promise<RunMapPage> {
+  const token = await getConfiguredAccessToken();
+  if (!token) {
+    return { activities: mockActivities.filter((a) => a.type === "Run"), source: "mock", nextPage: null };
+  }
+  const activities = await fetchStrava<StravaSummaryActivity[]>(
+    `/athlete/activities?per_page=200&page=${page}&before=${before}`, token,
+  );
+  return {
+    activities: activities.map(mapActivity).filter((a) => a.type === "Run"),
+    source: "strava",
+    // Pagination depends on ALL activities, including pages with no runs.
+    nextPage: activities.length === 200 ? page + 1 : null,
+  };
 }

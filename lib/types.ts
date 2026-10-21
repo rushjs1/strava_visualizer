@@ -20,6 +20,7 @@ export type ActivitySummary = {
   averageSpeedMetersPerSecond: number | null;
   totalElevationGainMeters: number;
   description?: string | null;
+  summaryPolyline?: string | null;
 };
 
 export type PersonalDataResult = {
@@ -69,4 +70,10 @@ export type ExportRow = {
   movingTimeMinutes: number;
   paceMinutesPerMile: number | null;
   elevationFeet: number;
+};
+
+export type RunMapPage = {
+  activities: ActivitySummary[];
+  source: "strava" | "mock";
+  nextPage: number | null;
 };
